@@ -1,0 +1,38 @@
+name: Security Scan Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  security_scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run SAST with Bandit
+        run: |
+          pip install bandit
+          bandit -r . -f html -o bandit_report.html
+        continue-on-error: true
+
+      - name: Upload SAST report to GitHub
+        uses: actions/upload-artifact@v3
+        with:
+          name: bandit-report
+          path: bandit_report.html
