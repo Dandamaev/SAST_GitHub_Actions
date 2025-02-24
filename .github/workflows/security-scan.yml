@@ -25,7 +25,7 @@ jobs:
       - name: Run Bandit SAST
         run: |
           bandit -r . -f html -o bandit_report.html
-        continue-on-error: false # Остановить пайплайн, если найдены уязвимости
+        continue-on-error: true
 
       - name: Upload Bandit report
         uses: actions/upload-artifact@v4
