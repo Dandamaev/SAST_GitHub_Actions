@@ -1,1 +1,1 @@
-# -SAST_GitHub_Actions
+Example SAST in GitHub Actions
