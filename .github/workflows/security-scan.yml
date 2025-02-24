@@ -23,15 +23,14 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
-
-      - name: Run SAST with Bandit
-        run: |
           pip install bandit
-          bandit -r . -f html -o bandit_report.html
-        continue-on-error: true
 
-      - name: Upload SAST report to GitHub
+      - name: Run Bandit SAST
+        run: |
+          bandit -r . -f html -o bandit_report.html
+        continue-on-error: false # Остановить пайплайн, если найдены уязвимости
+
+      - name: Upload Bandit report
         uses: actions/upload-artifact@v3
         with:
           name: bandit-report

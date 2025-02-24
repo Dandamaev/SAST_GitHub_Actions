@@ -6,7 +6,7 @@ def unsafe_sql_query(user_input):
     conn = sqlite3.connect("example.db")
     cursor = conn.cursor()
     
-    # Уязвимость: SQL-инъекция
+    # Уязвимость: SQL-инъекция (Bandit обнаружит)
     query = f"SELECT * FROM users WHERE name = '{user_input}'"
     cursor.execute(query)
     
@@ -15,8 +15,13 @@ def unsafe_sql_query(user_input):
     return result
 
 def unsafe_system_call(command):
-    # Уязвимость: выполнение произвольных команд
+    # Уязвимость: выполнение произвольных команд (Bandit обнаружит)
     subprocess.run(command, shell=True)
+
+def hardcoded_password():
+    # Уязвимость: хардкод пароля (Bandit обнаружит)
+    password = "admin123"
+    return password
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
@@ -28,3 +33,6 @@ if __name__ == "__main__":
         # Опасный вызов
         print("Запускаем команду...")
         unsafe_system_call(user_input)
+        
+        # Хардкод пароля
+        print("Хардкод пароля:", hardcoded_password())
