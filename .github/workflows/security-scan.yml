@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
   security_scan:
@@ -14,10 +11,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4 # Используем актуальную версию checkout
+        uses: actions/checkout@v4
 
       - name: Setup Python
-        uses: actions/setup-python@v5 # Используем актуальную версию setup-python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.x"
 
@@ -31,7 +28,7 @@ jobs:
         continue-on-error: false # Остановить пайплайн, если найдены уязвимости
 
       - name: Upload Bandit report
-        uses: actions/upload-artifact@v4 # Используем актуальную версию upload-artifact
+        uses: actions/upload-artifact@v4
         with:
           name: bandit-report
           path: bandit_report.html
